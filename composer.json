@@ -1,0 +1,32 @@
+{
+    "name": "scienta/php-rsmq-client",
+    "type": "library",
+    "description": "A client to publish messages to RSMQ, a nodejs message queue.",
+    "keywords": ["rsmq", "queue", "redis", "message-queue"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Php RSMQ-Client Contributors",
+            "homepage": "https://github.com/ScientaNL/php-rsmq-client/contributors"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Scienta\\RSMQClient\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Scienta\\RSMQClientTests\\": "tests/"
+        }
+    },
+    "suggest": {
+        "ext-redis": "PHPRedis extension to communicate with Redis"
+    }
+}

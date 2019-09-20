@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+
+  php:
+    container_name: php-rsmq-client
+    image: composer:latest
+    volumes:
+      - .:/app
+    command: tail -f /dev/null
