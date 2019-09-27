@@ -85,9 +85,10 @@ class Queue
 
     /**
      * @param Message $message
+     * @return string $messageId
      * @throws QueueException
      */
-    public function sendMessage(Message $message): void
+    public function sendMessage(Message $message): string
     {
         if (!$message->checkSize($this->config->getMaxSize())) {
             throw new QueueException('Message too large to send');
@@ -95,7 +96,8 @@ class Queue
 
         /** @var string[] $time */
         $time = $this->redisAdapter->time();
-        $result = $this->redisAdapter->transaction(function (RedisAdapterInterface $redis) use ($time, $message) {
+        $messageId = null;
+        $result = $this->redisAdapter->transaction(function (RedisAdapterInterface $redis) use ($time, $message, &$messageId) {
             // Make sure to always have correct 6digit millionth seconds from redis
             $ms = sprintf('%06d', $time[1]);
             $messageId = $message->generateUid($time[0] . $ms);
@@ -117,5 +119,7 @@ class Queue
         if ($this->config->isRealtime()) {
             $this->redisAdapter->publish($this->config->getPublishKey(), $result[3]);
         }
+
+        return $messageId;
     }
 }
